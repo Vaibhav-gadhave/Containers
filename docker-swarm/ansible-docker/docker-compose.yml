@@ -1,0 +1,40 @@
+version: '3'                         
+services: 
+  ansible:     
+#    container_name: ansible 
+    image: ansible 
+    tty: true 
+    stdin_open: true 
+    build: 
+      context: ./     
+#   networks: 
+#     - net 
+    deploy:
+      placement:
+        constraints: [node.role==manager]
+      restart_policy:
+        condition: on-failure
+        delay: 10s
+        max_attempts: 3
+
+  remote_host_one: 
+#     container_name: remote-host-one 
+    image: remote-host-ssh 
+    build: 
+      context: ./ssh-enabled-ubuntu 
+    deploy:
+      placement:
+#        constraints: [node.labels.name == ram]
+        constraints: [node.role==manager]
+
+  remote_host_two: 
+#    container_name: remote-host-two
+    image: remote-host-ssh 
+    build: 
+      context: ./ssh-enabled-ubuntu 
+    deploy:
+      placement:
+#        constraints: [node.labels.name == sham]
+        constraints: [node.role==manager]
+
+#URL: https://faun.pub/running-ansible-through-docker-b26399788e3e

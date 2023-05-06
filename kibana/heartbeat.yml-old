@@ -1,0 +1,96 @@
+# ======================= Elasticsearch template setting =======================
+
+setup.template.settings:
+  index.number_of_shards: 1
+  index.codec: best_compression
+# ---------------------------- Elasticsearch Output ----------------------------
+output.elasticsearch:
+  # Array of hosts to connect to.
+  hosts: ["localhost:9200"]
+# Configure monitors
+heartbeat.monitors:
+
+################ Production-HM ################
+- type: http
+  # List or urls to query
+  name: Production HealthMachine
+  urls:
+        - "https://app.healthmachine.io"
+  schedule: '@every 60s'
+
+################ UAT-HM ################
+- type: http
+  name: UAT HealthMachine
+  urls:
+        - "https://uat.app.healthmachine.io"
+  schedule: '@every 60s'
+
+################ Staging-HM ################
+- type: http
+  name: Staging HealthMachine
+  urls:
+        - "https://s.app.healthmachine.io"
+  schedule: '@every 60s'
+
+################ Dev-HM ################
+- type: http
+  name: Dev HealthMachine
+  urls:
+        - "https://d.app.healthmachine.io"
+  schedule: '@every 60s'
+
+################ Mdacs ################
+#- type: http
+#  name: Production Mdacs Campaign
+#  urls:
+#        - "https://mdacs-campaign.miraihealth.com"
+#  schedule: '@every 60s'
+
+################ Staging-Phhuman ################
+- type: http
+  name: Staging PHhuman
+  urls:
+        - "https://s.phhuman.healthmachine.io"
+  schedule: '@every 60s'
+
+################ Avegen Website ################
+- type: http
+  name: Avegen Production Website
+  urls:
+        - "https://avegenhealth.com"
+  schedule: '@every 60s'
+
+################ Avegen Website ################
+- type: http
+  name: Production ERP
+  urls:
+        - "https://erp.avegenhealth.com/"
+  schedule: '@every 60s'
+
+################ ToghtherForHerWebsite ################
+- type: http
+  name: ToghtherForHer
+  urls:
+        - "https://www.togetherforher.com/"
+  schedule: '@every 60s'
+################ Staging ToghtherForHerWebsite ################
+- type: http
+  name: Staging ToghtherForHer
+  urls:
+        - "https://s.togetherforher.com/"
+  schedule: '@every 60s'
+################ Production HM-CMS Wordpress  ################
+- type: http
+  name: Production HM-CMS wordpress
+  urls:
+        - "https://content.healthmachine.io/"
+  schedule: '@every 60s'
+
+################  Staging HM-CMS Wordpress  ################
+- type: http
+  name: Staging HM-CMS wordpress
+  urls:
+        - "https://content.s.myclinic.miraihealth.com/"
+  schedule: '@every 60s'
+
+

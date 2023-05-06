@@ -1,0 +1,28 @@
+version: '3'
+services:
+  portainer:
+    image: portainer/portainer-ce
+    container_name: portainer_new
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - Portainer:/data
+#    ports:
+#      - 8090:9000 
+
+  nginx:
+    image: nginx
+    volumes:
+      - ./conf.d:/etc/nginx/conf.d
+    depends_on:
+      - portainer
+#    networks:
+#      - es-network
+    ports:
+      - 9000:9000
+
+
+volumes:
+  Portainer:
+    driver: local
+
+ 

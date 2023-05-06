@@ -1,0 +1,31 @@
+version: '3' 
+services: 
+        ansible: 
+                container_name: ansible 
+                image: ansible 
+                tty: true 
+                stdin_open: true 
+                build: 
+                        context: ./ 
+                networks: 
+                        - net 
+        remote_host_one: 
+                container_name: remote-host-one 
+                image: remote-host-ssh 
+                build: 
+                        context: ./ssh-enabled-ubuntu 
+                networks: 
+                        - net 
+
+        remote_host_two: 
+                container_name: remote-host-two
+                image: remote-host-ssh 
+                build: 
+                        context: ./ssh-enabled-ubuntu 
+                networks: 
+                        - net 
+                
+networks: 
+        net: 
+
+#URL: https://faun.pub/running-ansible-through-docker-b26399788e3e
