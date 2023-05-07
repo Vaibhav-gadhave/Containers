@@ -10,3 +10,4 @@ RUN apt-get update \
     && chmod 666 /var/run/docker.sock
 
 USER jenkins
+
