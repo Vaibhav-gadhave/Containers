@@ -1,0 +1,15 @@
+## Jenkins file with docker and one extra node ##
+
+1. docker-compose up
+2. once your docker is up, please check your node is connected or not
+  
+ If not connect then follow the below steps
+
+  1) docker ps
+  2) docker exec -it dsjdk32 /bin/bash
+  3) cd /home/jenkins
+  4) vim imp.sh
+    need to change curl command, no need to change 1st line
+    Its gets updated if you run jenkins in other system or if you delete its volumes.
+  5) once the file is changed then
+  6) sh imp.sh
