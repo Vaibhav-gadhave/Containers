@@ -12,16 +12,20 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
       - jenkins_home:/var/jenkins_home
     command: >
-      sh -c "curl https://get.docker.com/ > /var/jenkins_home/dockerinstall &&
+      sh -c "apt-get update && apt-get install -y net-tools vim screen &&
+      curl https://get.docker.com/ > /var/jenkins_home/dockerinstall &&
       chmod 777 /var/jenkins_home/dockerinstall &&
       ./var/jenkins_home/dockerinstall &&
       chmod 666 /var/run/docker.sock &&
       /usr/local/bin/jenkins.sh"
+    networks:
+      - jenkins-net
 
   jenkins-node:
     image: ubuntu
     container_name: jenkins-node
-    command: tail -f /dev/null
+    command: >
+      sh -c "apt-get update && apt-get install -y net-tools vim screen && tail -f /dev/null"
     tty: true
     stdin_open: true
     restart: always
