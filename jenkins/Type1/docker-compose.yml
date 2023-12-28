@@ -1,9 +1,9 @@
 version: '3'
 
 services:
-  jenkins:
+  jenkins-master:
     image: jenkins/jenkins:lts
-    container_name: jenkins
+    container_name: jenkins-master
     user: root
     ports:
       - "8080:8080"
@@ -11,12 +11,25 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - jenkins_home:/var/jenkins_home
+    networks:
+      - jenkins-net
     command: >
-      sh -c "curl https://get.docker.com/ > /var/jenkins_home/dockerinstall &&
-      chmod 777 /var/jenkins_home/dockerinstall &&
-      ./var/jenkins_home/dockerinstall &&
-      chmod 666 /var/run/docker.sock &&
-      /usr/local/bin/jenkins.sh"
+      sh -c "chown -R jenkins:jenkins /var/jenkins_home &&
+      exec su -s /bin/bash jenkins /usr/local/bin/jenkins.sh"
+
+  jenkins-agent:
+    image: jenkins/inbound-agent:alpine
+    container_name: jenkins-agent
+    networks:
+      - jenkins-net
+    environment:
+      - JENKINS_URL=http://jenkins-master:8080
+      - JNLP_PROTOCOL_3_SSH=true
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+
+networks:
+  jenkins-net:
 
 volumes:
   jenkins_home:
