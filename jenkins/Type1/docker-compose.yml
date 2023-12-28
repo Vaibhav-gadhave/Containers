@@ -28,7 +28,7 @@ services:
     image: ubuntu
     container_name: jenkins-node
     command: >
-      sh -c "apt-get update && apt-get install -y net-tools iputils-ping vim curl screen default-jre-headless && 
+      sh -c "apt-get update && apt-get install -y net-tools iputils-ping vim git curl screen default-jre-headless && 
       echo 'curl -sO http://172.19.0.1:8080/jnlpJars/agent.jar' >> /home/jenkins/imp.sh &&
       echo 'java -jar agent.jar -jnlpUrl http://172.19.0.1:8080/computer/node1%2Dcontainer/jenkins-agent.jnlp -secret ee577b6ba0e10be2bdd45e70164d4dbd41449f3df89718485c99527b1335214b -workDir "/home/jenkins"' >> /home/jenkins/imp.sh &&
       chmod +x /home/jenkins/imp.sh &&
