@@ -15,6 +15,21 @@ services:
       - jenkins_home:/var/jenkins_home
     restart: always
 
+  jenkins-node-2:
+    image: jenkins/jnlp-slave
+    container_name: jenkins-node-2
+    depends_on:
+      - jenkins
+    environment:
+      - JENKINS_URL=http://0.0.0.0:8080  # Update with your Jenkins master URL
+      - JNLP_AGENT_NAME=jenkins-node-2
+    networks:
+      - jenkins-net
+
+networks:
+  jenkins-net:
+    driver: bridge
+
 volumes:
   jenkins_home:
 
