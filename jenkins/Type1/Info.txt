@@ -6,7 +6,7 @@
  If not connect then follow the below steps
 
   1) docker ps
-  2) docker exec -it dsjdk32 /bin/bash
+  2) docker exec -it dsjdk32 /bin/bash ## select ubuntu only
   3) cd /home/jenkins
   4) vim imp.sh
     need to change curl command, no need to change 1st line
