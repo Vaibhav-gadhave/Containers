@@ -2,11 +2,14 @@ FROM jenkins/jenkins:lts
 
 USER root
 
+# Install necessary packages
 RUN apt-get update \
-    && apt-get -y install net-tools iputils-ping curl vim screen \
-    && curl https://get.docker.com/ > /var/jenkins_home/dockerinstall \
-    && chmod 777 /var/jenkins_home/dockerinstall \
-    && sh /var/jenkins_home/dockerinstall
+    && apt-get -y install net-tools iputils-ping curl vim screen
+
+# Install Docker
+RUN curl -fsSL https://get.docker.com/ | sh
+
+# Add the Jenkins user to the docker group
+RUN usermod -aG docker jenkins
 
 USER jenkins
-
