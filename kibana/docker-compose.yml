@@ -35,7 +35,7 @@ services:
     environment:
       ELASTICSEARCH_HOSTS: http://node01:9200
     volumes:
-      - /c/Users/Vaibh/heartbeat.yml:/usr/share/heartbeat/heartbeat.yml:ro
+      - /media/vaibhavg/Backup/REPOS/Containers/kibana/heartbeat.yml:/usr/share/heartbeat/heartbeat.yml:ro
     networks:
       - es-network
     depends_on:
