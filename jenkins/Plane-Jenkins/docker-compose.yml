@@ -1,0 +1,51 @@
+version: '3'
+
+services:
+
+  jenkins:
+    image: jenkins/jenkins:lts
+    container_name: jenkins
+    user: root
+    ports:
+      - "8080:8080"
+      - "50000:50000"
+    volumes:
+      - jenkins_home:/var/jenkins_home
+    command: >
+      sh -c "apt-get update && apt-get install -y net-tools iputils-ping curl vim screen &&
+      /usr/local/bin/jenkins.sh"
+    networks:
+      jenkins-net:
+        ipv4_address: 10.1.0.2
+    hostname: jenkins
+    restart: always
+
+  jenkins-node1:
+    image: ubuntu
+    container_name: jenkins-node1
+    command: >
+      sh -c "apt-get update && apt-get install -y net-tools iputils-ping vim git curl screen default-jre-headless && 
+      echo 'curl -sO http://10.1.0.2:8080/jnlpJars/agent.jar' >> /home/jenkins/imp.sh &&
+      echo 'java -jar agent.jar -jnlpUrl http://10.1.0.2:8080/computer/node1%2Dcontainer/jenkins-agent.jnlp -secret ee577b6ba0e10be2bdd45e70164d4dbd41449f3df89718485c99527b1335214b -workDir "/home/jenkins"' >> /home/jenkins/imp.sh &&
+      chmod +x /home/jenkins/imp.sh &&
+      tail -f /dev/null"
+    tty: true
+    stdin_open: true
+    volumes:
+      - /home/jenkins  # Mount the /home/jenkins directory
+    networks:
+      jenkins-net:
+        ipv4_address: 10.1.0.3
+    hostname: jenkins-node1
+    restart: always
+        
+networks:
+  jenkins-net:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 10.1.0.0/16
+          gateway: 10.1.0.1
+
+volumes:
+  jenkins_home:
