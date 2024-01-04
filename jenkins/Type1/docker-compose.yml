@@ -22,20 +22,19 @@ services:
       - jenkins-net
     hostname: jenkins
     extra_hosts:
-      - "jenkins-node:172.19.0.1"  # Use the actual IP of jenkins-node container if changed
+      - "jenkins-node:172.23.0.2"  # Use a static IP for jenkins-node
 
   jenkins-node:
     image: ubuntu
     container_name: jenkins-node
     command: >
       sh -c "apt-get update && apt-get install -y net-tools iputils-ping vim git curl screen default-jre-headless && 
-      echo 'curl -sO http://172.19.0.1:8080/jnlpJars/agent.jar' >> /home/jenkins/imp.sh &&
-      echo 'java -jar agent.jar -jnlpUrl http://172.19.0.1:8080/computer/node1%2Dcontainer/jenkins-agent.jnlp -secret ee577b6ba0e10be2bdd45e70164d4dbd41449f3df89718485c99527b1335214b -workDir "/home/jenkins"' >> /home/jenkins/imp.sh &&
+      echo 'curl -sO http://172.23.0.1:8080/jnlpJars/agent.jar' >> /home/jenkins/imp.sh &&
+      echo 'java -jar agent.jar -jnlpUrl http://172.23.0.2:8080/computer/node1%2Dcontainer/jenkins-agent.jnlp -secret ee577b6ba0e10be2bdd45e70164d4dbd41449f3df89718485c99527b1335214b -workDir "/home/jenkins"' >> /home/jenkins/imp.sh &&
       chmod +x /home/jenkins/imp.sh &&
       tail -f /dev/null"
     tty: true
     stdin_open: true
-    restart: always
     volumes:
       - /home/jenkins  # Mount the /home/jenkins directory
     networks:
@@ -45,6 +44,9 @@ services:
 networks:
   jenkins-net:
     driver: bridge
+    ipam:
+      config:
+        - subnet: 172.23.0.0/24  # Use an appropriate subnet for your network
 
 volumes:
   jenkins_home:
