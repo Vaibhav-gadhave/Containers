@@ -12,8 +12,11 @@ services:
     volumes:
       - jenkins_home:/var/jenkins_home
     command: >
-      sh -c "apt-get update && apt-get install -y net-tools iputils-ping curl vim screen &&
-      /usr/local/bin/jenkins.sh"
+      /bin/bash -c "
+        /usr/local/bin/jenkins.sh &&
+        apt-get update &&
+        apt-get install -y net-tools iputils-ping curl vim screen &&
+        exec tail -f /dev/null"
     networks:
       jenkins-net:
         ipv4_address: 10.1.0.2
