@@ -13,7 +13,7 @@ services:
       - SUBFOLDER=/ #optional
       - TITLE=Webtop #optional
     volumes:
-      - /media/vaibhavg/Backup/Webtop:/config
+      - /home/vaibhavg/WEBTOP:/config
 #      - /var/run/docker.sock:/var/run/docker.sock #optional
     ports:
       - 3000:3000
