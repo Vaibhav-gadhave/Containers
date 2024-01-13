@@ -1,0 +1,22 @@
+FROM ubuntu:latest
+
+RUN apt-get update && \
+    apt-get install -y \
+    software-properties-common \
+    openssh-client \
+    openssh-server \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN apt-add-repository --yes --update ppa:ansible/ansible && \
+    apt-get install -y ansible
+
+WORKDIR /ansible
+
+# Generate SSH key for passwordless authentication
+RUN ssh-keygen -t rsa -N "" -f /root/.ssh/id_rsa
+
+# Copy the SSH key to the authorized keys
+RUN cat /root/.ssh/id_rsa.pub >> /root/.ssh/authorized_keys
+
+# Start the SSH server
+CMD service ssh start && tail -f /dev/null

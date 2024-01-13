@@ -1,0 +1,42 @@
+version: '3'
+services:
+  ansible-server:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: ansible-server
+    command: tail -f /dev/null
+    volumes:
+      - ./ansible:/ansible
+    networks:
+      - ansible-net
+
+  ansible-host1:
+    image: ubuntu
+    container_name: ansible-host1
+    command: >
+      sh -c "apt-get update && apt-get install -y net-tools iputils-ping vim git curl screen openssh-client openssh-server &&
+      tail -f /dev/null"
+    depends_on:
+      - ansible-server
+    networks:
+      - ansible-net
+    ports:
+      - "2222:22"  # Expose host1's SSH on port 2222
+
+  ansible-host2:
+    image: ubuntu
+    container_name: ansible-host2
+    command: >
+      sh -c "apt-get update && apt-get install -y net-tools iputils-ping vim git curl screen openssh-client openssh-server &&
+      tail -f /dev/null"
+    depends_on:
+      - ansible-server
+    networks:
+      - ansible-net
+    ports:
+      - "2223:22"  # Expose host2's SSH on port 2223
+
+networks:
+  ansible-net:
+    driver: bridge
