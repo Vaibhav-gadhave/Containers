@@ -15,8 +15,11 @@ RUN mkdir -p /var/run/sshd \
     && /bin/sed -i 's/.*session.*required.*pam_loginuid.so.*/session optional pam_loginuid.so/g' /etc/pam.d/sshd \
     && /bin/echo -e "LANG=\"en_US.UTF-8\"">/etc/default/local
 
-# Install Ansible
-RUN yum install -y ansible
+# Install Ansible only for the "ansible" service
+ARG INSTALL_ANSIBLE=true
+RUN if [ "$INSTALL_ANSIBLE" = "true" ]; then \
+    yum install -y ansible; \
+fi
 
 WORKDIR /ansible
 
