@@ -11,6 +11,7 @@ services:
         ipv4_address: 172.19.0.2  # Set a static IPv4 address for ansible
     volumes:
       - ./ansible:/ansible
+      - ./ansible/ansible_hosts:/etc/ansible/hosts
     command: >
       sh -c "ssh-keygen -t rsa -N '' -f /root/.ssh/id_rsa > /dev/null &&
       cp ~/.ssh/id_rsa.pub authorized_keys &&
@@ -29,6 +30,7 @@ services:
       - ./ansible:/ansible
     command: >
       sh -c "mkdir -p /root/.ssh/ &&
+      sleep 10 &&
       cp /ansible/authorized_keys ~/.ssh/ &&
       chmod 700 ~/.ssh &&
       chmod 600 ~/.ssh/authorized_keys &&
@@ -47,9 +49,12 @@ services:
       - ./ansible:/ansible
     command: >
       sh -c "mkdir -p /root/.ssh/ &&
+      sleep 10 &&
       cp /ansible/authorized_keys ~/.ssh/ &&
       chmod 700 ~/.ssh &&
       chmod 600 ~/.ssh/authorized_keys &&
+      sleep 10 &&
+      rm /ansible/authorized_keys &&
       /usr/sbin/sshd -D"
 
 networks:
