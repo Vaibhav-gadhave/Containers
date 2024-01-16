@@ -1,0 +1,21 @@
+---
+- name: Create a user on all servers
+  hosts: all
+  become: true  # Run tasks as a privileged user (e.g., root)
+
+  vars:
+    new_username: your_username  # Change this to the desired username
+    new_password: your_password  # Change this to the desired password
+
+  tasks:
+    - name: Create user
+      user:
+        name: "{{ new_username }}"
+        password: "{{ new_password | password_hash('sha512') }}"  # Hash the password
+        state: present
+      register: user_result
+
+    - name: Display changes
+      debug:
+        var: user_result
+

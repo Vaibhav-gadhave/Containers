@@ -1,0 +1,17 @@
+---
+- name: Install and configure Apache HTTP server
+  hosts: all
+  become: true  # Run tasks as a privileged user (e.g., root)
+
+  tasks:
+    - name: Install Apache HTTP server
+      package:
+        name: httpd
+        state: present
+
+    - name: Ensure Apache service is started and enabled
+      service:
+        name: httpd
+        state: started
+        enabled: yes
+
