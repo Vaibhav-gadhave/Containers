@@ -1,0 +1,1 @@
+In Ansible, loops are used to iterate over a set of values, enabling you to perform repetitive tasks with different inputs.

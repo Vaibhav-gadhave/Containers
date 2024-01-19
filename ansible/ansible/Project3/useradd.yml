@@ -1,0 +1,27 @@
+---
+- name: Add users to hosts
+  hosts: all
+  become: true
+
+  vars:
+    users_to_add:
+      - name: user1
+        uid: 1001
+        groups: "wheel,users"
+      - name: user2
+        uid: 1002
+        groups: "users"
+
+  tasks:
+    - name: Ensure users exist
+      user:
+        name: "{{ item.name }}"
+        uid: "{{ item.uid }}"
+        groups: "{{ item.groups }}"
+        state: present
+      with_items: "{{ users_to_add }}"
+      register: dbout
+
+    - name: print dbout variable
+      debug: 
+        var: dbout 

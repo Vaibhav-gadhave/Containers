@@ -1,0 +1,7 @@
+users_to_add:
+  - name: user11
+    uid: 1003
+    groups: "wheel,users"
+  - name: user12
+    uid: 1004
+    groups: "users"

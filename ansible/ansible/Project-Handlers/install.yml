@@ -1,0 +1,33 @@
+---
+- name: Install packages on CentOS and Ubuntu
+  hosts: all
+  become: true
+  gather_facts: true
+
+  tasks:
+    - name: Install common packages
+      package:
+        name: "{{ item }}"
+        state: present
+      loop:
+        - vim
+        - git
+        - httpd
+        - zip 
+        - screen
+        - unzip
+      when: "'CentOS' in ansible_distribution"
+      notify: restart httpd
+
+    - name: Install git on Ubuntu
+      package:
+        name: git
+        state: present
+      when: "'Ubuntu' in ansible_distribution"
+      notify: restart httpd
+
+  handlers:
+    - name: restart httpd
+      service:
+        name: httpd
+        state: restarted

@@ -1,0 +1,1 @@
+In Ansible, handlers are a way to trigger service actions (like restarting or stopping services) only when certain tasks notify them. Handlers are defined separately from tasks, and they are only executed if a task triggers a notification.

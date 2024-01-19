@@ -1,0 +1,13 @@
+---
+- name: Add users to hosts
+  hosts: all
+  become: true
+
+  tasks:
+    - name: Ensure users exist
+      user:
+        name: "{{ item.name }}"
+        uid: "{{ item.uid }}"
+        groups: "{{ item.groups }}"
+        state: present
+      with_items: "{{ users_to_add }}"

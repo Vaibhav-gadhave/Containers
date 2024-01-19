@@ -1,0 +1,17 @@
+---
+- name: Print System RAM and CPU Info
+  hosts: all  # You can change this to the target host if needed
+  #gather_facts: false
+
+  tasks:
+    - name: Display System Distribution Info
+      debug:
+        var: ansible_distribution
+
+    - name: Display System RAM Info
+      debug:
+        var: ansible_memory_mb.real.free
+
+    - name: Display System CPU Info
+      debug:
+        var: ansible_processor[2]

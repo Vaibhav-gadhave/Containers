@@ -1,0 +1,23 @@
+---
+- name: Install packages on CentOS and Ubuntu
+  hosts: all
+  become: true
+
+  tasks:
+    - name: Install vim, git, wget, zip, unzip on CentOS
+      yum:
+        name: "{{ item }}"
+        state: present
+      loop:
+        - vim
+        - git
+        - wget
+        - zip
+        - unzip
+      when: "'CentOS' in ansible_distribution"
+
+    - name: Install git on Ubuntu
+      apt:
+        name: git
+        state: present
+      when: "'Ubuntu' in ansible_distribution"

@@ -1,0 +1,1 @@
+In Ansible, decision making is often implemented using conditional statements. The most common way to express conditions is by using the when keyword. The when keyword allows you to execute a task based on whether a condition is true or false.

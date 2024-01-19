@@ -1,0 +1,17 @@
+---
+- name: Install packages based on distribution
+  hosts: all  # You can specify the target hosts or group here
+  become: true
+
+  tasks:
+    - name: Install Vim on CentOS
+      package:
+        name: vim
+        state: present
+      when: "'CentOS' in ansible_distribution"
+
+    - name: Install Git on Ubuntu
+      package:
+        name: git
+        state: present
+      when: "'Ubuntu' in ansible_distribution"

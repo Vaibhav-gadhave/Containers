@@ -1,0 +1,1 @@
+In Ansible, facts are pieces of information gathered from the target systems during playbook execution. These facts provide details about the system, such as hardware information, network configuration, operating system details, etc. Ansible automatically gathers these facts and makes them available for use in your playbooks.
