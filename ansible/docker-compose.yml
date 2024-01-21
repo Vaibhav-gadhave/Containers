@@ -17,8 +17,8 @@ services:
       cp ~/.ssh/id_rsa.pub authorized_keys &&
       tail -f /dev/null"
 
-  remote_host_one:
-    container_name: remote-host-one
+  remote-host-centos:
+    container_name: remote-host-centos
     build:
       context: ./
       args:
@@ -36,10 +36,10 @@ services:
       chmod 600 ~/.ssh/authorized_keys &&
       /usr/sbin/sshd -D"
 
-  remote_host_two:
-    container_name: remote-host-two
+  remote-host-ubuntu:
+    container_name: remote-host-ubuntu
     build:
-      context: ./
+      context: ./Dockerfile-ubuntu
       args:
         INSTALL_ANSIBLE: "false"
     networks:
