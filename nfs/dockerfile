@@ -2,7 +2,7 @@ FROM debian:bullseye-slim
 
 # Install NFS server
 RUN apt-get update && \
-    apt-get install -y nfs-kernel-server && \
+    apt-get install -y nfs-kernel-server net-tools vim screen openssh-server openssh-client && \
     rm -rf /var/lib/apt/lists/*
 
 # Add NFS exports configuration

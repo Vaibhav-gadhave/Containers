@@ -5,7 +5,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: your-nfs-server
+    container_name: NFS-Server
     privileged: true
     volumes:
       - ./data:/exports
