@@ -1,14 +1,14 @@
 version: '3'
+
 services:
   nfs-server:
-    container_name: your-nfs-server
     build:
       context: .
       dockerfile: Dockerfile
+    container_name: your-nfs-server
+    privileged: true
+    volumes:
+      - ./data:/exports
     ports:
       - "2049:2049"
-    volumes:
-      - ./data:/data
-    privileged: true  # Required for NFS to work
     restart: unless-stopped
-

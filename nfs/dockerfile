@@ -1,12 +1,9 @@
-FROM ubuntu:latest
+FROM debian:bullseye-slim
 
 # Install NFS server
 RUN apt-get update && \
-    DEBIAN_FRONTEND=noninteractive apt-get install -y nfs-kernel-server && \
+    apt-get install -y nfs-kernel-server && \
     rm -rf /var/lib/apt/lists/*
-
-# Create an export directory
-RUN mkdir -p /exports
 
 # Add NFS exports configuration
 COPY exports /etc/exports
@@ -15,5 +12,4 @@ COPY exports /etc/exports
 EXPOSE 2049/tcp 2049/udp
 
 # Start NFS server
-CMD ["sh", "-c", "echo '/usr/sbin/exportfs -ra' >> /etc/bash.bashrc && /usr/sbin/rpc.nfsd --foreground --no-udp"]
-
+CMD ["sh", "-c", "rpcbind && service nfs-kernel-server start && tail -f /dev/null"]
