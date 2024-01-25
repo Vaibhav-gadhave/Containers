@@ -1,1 +1,1 @@
-/exports *(rw,fsid=0,sync,no_subtree_check,no_root_squash)
+/media/vaibhavg/Backup/REPOS/Containers/nfs/data *(rw,no_root_squash)
