@@ -5,6 +5,10 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+    container_name: your-nfs-server
+    privileged: true
+    volumes:
+      - ./data:/exports
     ports:
       - "2049:2049"
     volumes:

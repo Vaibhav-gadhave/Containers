@@ -1,7 +1,0 @@
-##########Steps for NFS client#########
-
-sudo apt install nfs-common -y
-
-docker inspect <container>   ## to find the ip address
-
-sudo mount 192.168.43.234:/exports  /mnt/test/
