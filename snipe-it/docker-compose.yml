@@ -20,7 +20,7 @@ services:
     image: linuxserver/snipe-it:latest
     secrets:
       - db_password
-      - db_user    
+      - db_user
     container_name: snipe-it
     restart: always
     depends_on:
@@ -38,7 +38,7 @@ services:
       PUID: 1000
     ports:
       - "8084:80"
-      
+
 secrets:
   db_password:
     external: true
