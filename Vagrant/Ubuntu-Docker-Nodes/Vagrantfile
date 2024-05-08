@@ -14,7 +14,11 @@ Vagrant.configure("2") do |config|
     master.vm.provision "shell", inline: <<-SHELL
       sudo apt update
       sudo apt upgrade -y
-      sudo apt install git vim screen htop -y
+      sudo apt install git vim screen htop net-tools -y
+      sudo add-apt-repository universe
+      sudo add-apt-repository multiverse
+      sudo apt update
+      sudo hostnamectl set-hostname fedora.cn.lan
     SHELL
   end
 
@@ -28,7 +32,7 @@ Vagrant.configure("2") do |config|
     node1.vm.provision "shell", inline: <<-SHELL
       sudo apt update
       sudo apt upgrade -y
-      sudo apt install git vim screen htop -y
+      sudo apt install git vim screen htop net-tools -y
     SHELL
   end
 
@@ -42,7 +46,7 @@ Vagrant.configure("2") do |config|
     node2.vm.provision "shell", inline: <<-SHELL
       sudo apt update
       sudo apt upgrade -y
-      sudo apt install git vim screen htop -y
+      sudo apt install git vim screen htop net-tools -y
     SHELL
   end
 
