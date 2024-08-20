@@ -12,7 +12,7 @@ services:
       - "50000:50000"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - jenkins_home:/var/jenkins_home
+      - ./jenkins_home:/var/jenkins_home
     networks:
       - jenkins-net
     hostname: jenkins
@@ -21,19 +21,21 @@ services:
     restart: always
 
   jenkins-node:
-    image: ubuntu
+    build:
+      context: ./node1
+      dockerfile: Dockerfile
     container_name: jenkins-node
     command: >
-      sh -c "apt-get update && apt-get install -y net-tools iputils-ping vim git curl screen default-jre-headless && 
-      echo 'curl -sO http://172.19.0.1:8080/jnlpJars/agent.jar' >> /home/jenkins/imp.sh &&
-      echo 'java -jar agent.jar -jnlpUrl http://172.19.0.1:8080/computer/node1%2Dcontainer/jenkins-agent.jnlp -secret ee577b6ba0e10be2bdd45e70164d4dbd41449f3df89718485c99527b1335214b -workDir "/home/jenkins"' >> /home/jenkins/imp.sh &&
+      sh -c "echo 'curl -sO http://172.19.0.3:8080/jnlpJars/agent.jar' >> /home/jenkins/imp.sh &&
+      echo 'java -jar agent.jar -url http://172.19.0.3:8080/ -secret 53cd6a62762d47646b57f194dbf2762049fb14d036ae681224df02d7ae637bc3 -name node1 -workDir "/home/jenkins"' >> /home/jenkins/imp.sh &&
       chmod +x /home/jenkins/imp.sh &&
       tail -f /dev/null"
     tty: true
     stdin_open: true
     restart: always
     volumes:
-      - /home/jenkins  # Mount the /home/jenkins directory
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./jenkins-node1:/home/jenkins
     networks:
       - jenkins-net
     hostname: jenkins-node
@@ -43,4 +45,3 @@ networks:
     driver: bridge
 volumes:
   jenkins_home:
-

@@ -4,7 +4,7 @@ USER root
 
 # Install necessary packages
 RUN apt-get update \
-    && apt-get -y install net-tools iputils-ping curl vim screen
+    && apt-get -y install net-tools iputils-ping curl vim screen default-jre-headless openjdk-8-jdk
 
 # Install Docker
 RUN curl -fsSL https://get.docker.com/ | sh

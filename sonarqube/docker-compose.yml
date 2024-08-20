@@ -1,0 +1,33 @@
+version: '3.7'
+
+services:
+  postgres:
+    image: postgres:13
+    environment:
+      POSTGRES_USER: sonar
+      POSTGRES_PASSWORD: admin123
+      POSTGRES_DB: sonarqube
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - sonarnet
+
+  sonarqube:
+    build: .
+    ports:
+      - "80:80"
+      - "9000:9000"
+      - "9001:9001"
+    networks:
+      - sonarnet
+    depends_on:
+      - postgres
+    volumes:
+      - sonarqube_data:/opt/sonarqube
+
+volumes:
+  postgres_data:
+  sonarqube_data:
+
+networks:
+  sonarnet:
