@@ -1,6 +1,0 @@
-
-services:
-  nexus:
-    image: dockette/nexus:latest
-    ports:
-      - "8081:8081"
