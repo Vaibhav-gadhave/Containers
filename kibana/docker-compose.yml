@@ -2,14 +2,16 @@ version: '3.0'
 
 services:
   node01:
-    image: elasticsearch:8.12.0
+    image: elasticsearch:8.15.1
     container_name: node01
     environment:
       - node.name=node01
       - cluster.name=es-cluster-8
       - discovery.type=single-node
       - "ES_JAVA_OPTS=-Xms500m -Xmx500m"
-      - xpack.security.enabled=false
+#      - ELASTICSEARCH_USERNAME=kibana_system
+#      - ELASTICSEARCH_PASSWORD=Passwd@123#
+      - xpack.security.enabled=true
       - xpack.security.enrollment.enabled=true
     ulimits:
       memlock:
@@ -22,13 +24,20 @@ services:
     networks:
       - es-network
 
+# Note: run the below command after the elasticsearch is up, it will generate the password for user "kibana_system"
+# bash -c 'yes | bin/elasticsearch-reset-password -u kibana_system 
+
   kibana:
-    image: kibana:8.12.0
+    image: kibana:8.15.1
     container_name: kibana
     environment:
-      ELASTIC_HOSTS: http://node01:9200
-      ELASTIC_USERNAME: elastic
-      ELASTIC_PASSWORD: changeme
+      - ELASTIC_HOSTS=http://node01:9200
+      - ELASTIC_USERNAME=elastic
+      - ELASTIC_PASSWORD=Passwd@123#
+#      - XPACK_REPORTING_KIBANASERVER_HOSTNAME=localhost
+      - SERVER_SSL_ENABLED=false
+      - xpack.security.enabled=true
+      - xpack.security.authc.providers=[]
     ports:
       - 5601:5601
     networks:
@@ -37,7 +46,7 @@ services:
       - node01
 
   heartbeat:
-    image: elastic/heartbeat:8.12.0
+    image: elastic/heartbeat:8.15.1
     container_name: heartbeat
     environment:
       ELASTIC_HOSTS: http://node01:9200
@@ -47,11 +56,36 @@ services:
       - es-network
     depends_on:
       - node01
+  
+  remote-host-centos:
+    container_name: remote-host-centos
+    build:
+      context: ./centos-remote-host
+    networks:
+      - es-network
+    volumes:
+      - remote-data-centos:/data
+    command: sleep infinity  # This keeps the container running
+  
+  remote-host-ubuntu:
+    container_name: remote-host-ubuntu
+    build:
+      context: ./ubuntu-remote-host
+    networks:
+      - es-network
+    volumes:
+      - remote-data-ubuntu:/data
+    command: sleep infinity  # This keeps the container running
 
 volumes:
   es-data01:
+    driver: local
+  remote-data-ubuntu:
+    driver: local
+  remote-data-centos:
     driver: local
 
 networks:
   es-network:
     driver: bridge
+    
