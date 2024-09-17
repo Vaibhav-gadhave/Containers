@@ -97,6 +97,7 @@ services:
     volumes:
       - certs:/usr/share/elasticsearch/config/certs
       - esdata01:/usr/share/elasticsearch/data
+      - "./init.sh://usr/share/elasticsearch/init.sh:rwx"
     ports:
       - ${ES_PORT}:9200
     environment:
@@ -141,7 +142,7 @@ services:
     volumes:
       - certs:/usr/share/kibana/config/certs
       - kibanadata:/usr/share/kibana/data
-#      - ./kibana.yml:/usr/share/kibana/config/kibana.yml:ro
+      - "./init.sh:/usr/share/kibana/init.sh:rwx"
     ports:
       - ${KIBANA_PORT}:5601
     environment:
@@ -186,6 +187,7 @@ services:
       - "/sys/fs/cgroup:/hostfs/sys/fs/cgroup:ro"
       - "/proc:/hostfs/proc:ro"
       - "/:/hostfs:ro"
+      - "./init.sh:/usr/share/metricbeat/init.sh:rwx"
     environment:
       - ELASTIC_USER=elastic
       - ELASTIC_PASSWORD=${ELASTIC_PASSWORD}
@@ -213,6 +215,7 @@ services:
       - "./filebeat.yml:/usr/share/filebeat/filebeat.yml:ro"
       - "/var/lib/docker/containers:/var/lib/docker/containers:ro"
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
+      - "./init.sh:/usr/share/filebeat/init.sh:rwx"
     environment:
       - ELASTIC_USER=elastic
       - ELASTIC_PASSWORD=${ELASTIC_PASSWORD}
@@ -233,6 +236,7 @@ services:
       - certs:/usr/share/heartbeat/certs
       - heartbeatdata01:/usr/share/heartbeat/data
       - "./heartbeat.yml:/usr/share/heartbeat/heartbeat.yml:ro"
+      - "./init.sh:/usr/share/heartbeat/init.sh:rwx"
     environment:
       - ELASTIC_USER=elastic
       - ELASTIC_PASSWORD=${ELASTIC_PASSWORD}
@@ -258,6 +262,7 @@ services:
       - logstashdata01:/usr/share/logstash/data
       - "./logstash_ingest_data/:/usr/share/logstash/ingest_data/"
       - "./logstash.conf:/usr/share/logstash/pipeline/logstash.conf:ro"
+      - "./init.sh:/usr/share/logstash/init.sh:rwx"
     environment:
       - xpack.monitoring.enabled=false
       - ELASTIC_USER=elastic

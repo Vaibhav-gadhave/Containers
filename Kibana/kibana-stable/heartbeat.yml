@@ -1,0 +1,78 @@
+heartbeat.config.monitors:
+  path: ${path.config}/monitors.d/*.yml
+  reload.enabled: false
+  reload.period: 5s
+
+# Configure monitors inline
+heartbeat.monitors:
+- type: http
+  name: Facebook Website
+  urls:
+        - "https://www.facebook.com"
+  schedule: '@every 60s'
+
+################ Google-HM ################
+- type: http
+  # List or urls to query
+  name: Google Website
+  urls:
+        - "https://www.google.com"
+  schedule: '@every 60s'
+
+################ Bing-HM ################
+- type: http
+  # List or urls to query
+  name: Microsoft Website
+  urls:
+        - "https://www.bing.com"
+  schedule: '@every 60s'
+
+# ======================= Elasticsearch template setting =======================
+
+setup.template.settings:
+  index.number_of_shards: 1
+  index.codec: best_compression
+  #_source.enabled: false
+
+# ---------------------------- Elasticsearch Output ----------------------------
+setup.kibana:
+  host: ${KIBANA_HOSTS}
+  username: ${ELASTIC_USER}
+  password: ${ELASTIC_PASSWORD} 
+
+output.elasticsearch:
+  hosts: ${ELASTIC_HOSTS}
+  protocol: "https"
+  username: ${ELASTIC_USER}
+  password: ${ELASTIC_PASSWORD}
+  ssl:
+    enabled: true
+    certificate_authorities: ${CA_CERT}
+# ------------------------------ Logstash Output -------------------------------
+#output.logstash:
+  # The Logstash hosts
+  #hosts: ["localhost:5044"]
+
+  # Optional SSL. By default is off.
+  # List of root certificates for HTTPS server verifications
+  #ssl.certificate_authorities: ["/etc/pki/root/ca.pem"]
+
+  # Certificate for SSL client authentication
+  #ssl.certificate: "/etc/pki/client/cert.pem"
+
+  # Client Certificate Key
+  #ssl.key: "/etc/pki/client/cert.key"
+
+# ================================= Processors =================================
+
+processors:
+  - add_observer_metadata:
+      # Optional, but recommended geo settings for the location Heartbeat is running in
+      #geo:
+        # Token describing this location
+        #name: us-east-1a
+        # Lat, Lon "
+        #location: "37.926868, -78.024902"
+
+
+
