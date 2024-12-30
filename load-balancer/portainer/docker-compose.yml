@@ -6,8 +6,19 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - Portainer:/data
-#    ports:
-#      - 8090:9000 
+    ports:
+      - 8090:9000 
+
+  portainer:
+    image: portainer/portainer-ce
+    container_name: portainer_new
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - Portainer:/data
+    ports:
+      - 8090:9000 
+
+
 
   nginx:
     image: nginx
