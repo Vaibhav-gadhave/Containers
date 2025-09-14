@@ -1,0 +1,13 @@
+version: "3.8"
+
+services:
+  proxmoxve:
+    image: rtedpro/proxmox:8.4.9
+    container_name: proxmoxve
+    hostname: pve
+    privileged: true
+    ports:
+      - "8006:8006"
+    stdin_open: true
+    tty: true
+
